@@ -1,0 +1,68 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the isValid function below.
+static String isValid(String s) {
+        char [] ch = s.toCharArray();
+
+        HashMap<Character, Integer> display = new HashMap<Character, Integer>();
+        int value;
+        for (char c: ch){
+                if (display.containsKey(c)){
+                    value = display.get(c) + 1;
+                    display.replace(c, value);
+                } else {
+                    display.put(c, 1);
+                }
+        }
+    Collection<Integer> values = display.values();
+        int maxOccurrence = Collections.max(values);
+        int minOccurrence = Collections.min(values);
+        List valuesList = new ArrayList(values);
+        if (minOccurrence==maxOccurrence) return "YES";
+
+        Collections.sort(valuesList);
+        System.out.println(valuesList);
+        Integer[] valuesArray = (Integer[]) valuesList.toArray(new Integer[values.size()]);
+        System.out.println(Arrays.toString(valuesArray));
+        int count = 0;
+        for (int i = 0; i < valuesList.size() - 1; i++) {
+            System.out.println(String.format("i is %s and count is %s", i, count));
+            if (valuesArray[i] < valuesArray[i+1]){
+                count++;
+                System.out.println(String.format("value at i is %s and and it is less than i+1 which is %s", valuesArray[i], valuesArray[i+1]));
+                if(i!=0 && i+1 < valuesList.size()-1) return "NO";
+//                if(valuesArray[i]!=1 && i+1 < valuesList.size()-1) return "NO";
+                if (count > 1) return "NO";
+                if (i!=0 && valuesArray[i+1] - valuesArray[i] > 1 ) return "NO";
+            }
+        }
+
+        return "YES";
+    }
+
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = scanner.nextLine();
+
+        String result = isValid(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
