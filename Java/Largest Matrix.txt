@@ -1,0 +1,89 @@
+//Before I learnt Dynamic Programming
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        //Test 1 = Should give 4 as result
+        int [][] image1 = {
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {0,1,1,1,1},
+                {0,1,1,1,1},
+                {0,0,0,1,1}
+        };
+
+        //Test 2 = Should give 2 as result
+        int [][] image2 = {
+                {1,1,1},
+                {1,1,0},
+                {1,1,0}
+        };
+
+        //Test 3 = Should give 0 as result
+        int [][] image3 = {
+                {0,0,0},
+                {0,0,0},
+                {0,0,0}
+        };
+
+        //Test 4 = Should give 1 as result
+        int [][] image4 = {
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {1,1,1,1,1}
+        };
+
+        //Test 4 = Should give 3 as result
+        int [][] image5 = {
+                {1,1,1,1,1},
+                {1,1,1,0,0},
+                {1,1,1,0,0},
+                {1,1,1,0,0},
+                {1,1,1,1,1}
+        };
+
+        System.out.println(String.format("The largest white square in this image has a width of %s", largestMatrix(image5)));
+    }
+
+    public static int largestMatrix(int [][] image) {
+        int largestMatrixWidth = 0;
+        for (int count = 1; count <= image.length; count++){
+//            System.out.println(String.format("Count is %s", count));
+            if (ifPossible(count, image)){
+                largestMatrixWidth = count;
+            } else {
+                return largestMatrixWidth;
+            }
+        }
+        return largestMatrixWidth;
+    }
+
+    public static boolean ifPossible(int length, int[][] bigSquare) {
+        int total;
+        int bigSquareLength = bigSquare.length;
+        for (int iStarter = 0; iStarter < bigSquareLength; iStarter++){
+            for(int jStarter = 0; jStarter < bigSquareLength; jStarter++){
+                total = 0;
+                for (int i = iStarter; i < iStarter+length && i < bigSquareLength; i++){
+                    for (int j = jStarter; j < jStarter+length && j < bigSquareLength; j++){
+//                        System.out.println(String.format("i is %s and j is %s", i, j));
+//                        System.out.println(String.format("bigSquare[%s,%s] is %s", i, j, bigSquare[i][j]));
+                        if (bigSquare[i][j] == 1){
+                            total++;
+//                            System.out.println(String.format("total is %s", total));
+                        }
+                    }
+                }
+                if (total == length * length) return true;
+            }
+        }
+    return false;
+    }
+}
+
