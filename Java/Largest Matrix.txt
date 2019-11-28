@@ -1,4 +1,4 @@
-//Before I learnt Dynamic Programming
+//Before I learnt Dynamic Programming ... Here I used 4 for loops
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -87,3 +87,87 @@ public class Solution {
     }
 }
 
+
+//After I learnt Irfan Baqui's solution using Dynamic Programming - https://www.youtube.com/watch?v=FO7VXDfS8Gk
+
+
+
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        //Test values
+        //Test 1 = Should give 4 as result
+        int [][] image1 = {
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {0,1,1,1,1},
+                {0,1,1,1,1},
+                {0,0,0,1,1}
+        };
+
+        //Test 2 = Should give 2 as result
+        int [][] image2 = {
+                {1,1,1},
+                {1,1,0},
+                {1,1,0}
+        };
+
+        //Test 3 = Should give 0 as result
+        int [][] image3 = {
+                {0,0,0},
+                {0,0,0},
+                {0,0,0}
+        };
+
+        //Test 4 = Should give 1 as result
+        int [][] image4 = {
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {1,1,1,1,1},
+                {1,1,1,1,1}
+        };
+
+        //Test 4 = Should give 3 as result
+        int [][] image5 = {
+                {1,1,1,1,1},
+                {1,1,1,0,0},
+                {1,1,1,0,0},
+                {1,1,1,0,0},
+                {1,1,1,1,1}
+        };
+
+        System.out.println(String.format("The largest white square in this image has a width of %s", largestMatrix(image1)));
+    }
+
+    public static int largestMatrix(int [][] image) {
+        int largestMatrixWidth = 0;
+        int row = image.length;
+        int column = image[0].length;
+        int [][] imageClone = new int [row][column];
+
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < column; j++){
+                imageClone[i][j] = image[i][j];
+            }
+        }
+
+        int [] neighbours;
+
+        for (int i = 0; i < image.length; i++){
+            for(int j = 0; j < image[0].length; j++){
+                if( i == 0 || j == 0){
+
+                }
+                else if (image[i][j] > 0){
+                    neighbours = new int [] {imageClone[i][j-1], imageClone[i-1][j], imageClone[i-1][j-1]};
+                    Arrays.sort(neighbours);
+                    imageClone[i][j] = 1 + neighbours[0];
+                }
+                if (imageClone[i][j] > largestMatrixWidth) largestMatrixWidth = imageClone[i][j];
+            }
+        }
+        return largestMatrixWidth;
+    }
+}
